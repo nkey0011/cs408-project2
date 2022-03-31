@@ -1,5 +1,10 @@
 package edu.jsu.mcis.cs408.project2;
 
+/*
+work here
+ */
+
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
