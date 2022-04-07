@@ -67,11 +67,21 @@ public class CrosswordViewModel extends ViewModel {
 
             // Add word to Letters array, one character at a time
 
-            /*
+                    //INSERT YOUR CODE HERE
+            letters.getValue()[row][column] = BLANK_CHAR;
 
-                INSERT YOUR CODE HERE
 
-            */
+
+            for (int i=0; i < w.length(); i++){
+                w.charAt(i);
+
+            }
+
+
+
+
+
+
 
         }
 
@@ -151,19 +161,25 @@ public class CrosswordViewModel extends ViewModel {
 
                         // Clear grid squares
 
-                        /*
 
-                            INSERT YOUR CODE HERE
+                                //INSERT YOUR CODE HERE
 
-                        */
+
 
                         // Append Clue to StringBuilder (either clueAcrossBuffer or clueDownBuffer)
+                                //INSERT YOUR CODE HERE
 
-                        /*
+                        String clue = word.getClue();
+                        WordDirection direction = word.getDirection();
 
-                            INSERT YOUR CODE HERE
+                        if (direction == WordDirection.ACROSS){
+                            clueAcrossBuffer.append(nArray[row][column] + ": " + clue + "\n");
+                        }
+                        else if  (direction == WordDirection.DOWN){
+                                clueDownBuffer.append(nArray[row][column] + ": " + clue + "\n");
+                        }
 
-                        */
+
 
                         // Create unique key; add word to collection
 
