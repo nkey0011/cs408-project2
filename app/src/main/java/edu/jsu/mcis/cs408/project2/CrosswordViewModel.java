@@ -16,7 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class CrosswordViewModel extends ViewModel {
+public class
+CrosswordViewModel extends ViewModel {
 
     private static final int WORD_DATA_FIELDS = 6;
     private static final int WORD_HEADER_FIELDS = 2;
@@ -67,21 +68,16 @@ public class CrosswordViewModel extends ViewModel {
 
             // Add word to Letters array, one character at a time
 
-                    //INSERT YOUR CODE HERE
-            letters.getValue()[row][column] = BLANK_CHAR;
+            for (int i = 0; i < w.length(); i++){
 
+                letters.getValue()[row][column] = w.charAt(i);
 
-
-            for (int i=0; i < w.length(); i++){
-                w.charAt(i);
+                if ( word.isAcross() )
+                    column++;
+                else if ( word.isDown() )
+                    row++;
 
             }
-
-
-
-
-
-
 
         }
 
@@ -91,7 +87,7 @@ public class CrosswordViewModel extends ViewModel {
 
     private void addAllWordsToGrid() {
         for (Map.Entry<String, Word> e : Objects.requireNonNull(words.getValue()).entrySet()) {
-            addWordToGrid( e.getKey() );
+            //addWordToGrid( e.getKey() );
         }
     }
 
@@ -121,6 +117,8 @@ public class CrosswordViewModel extends ViewModel {
 
                 int height = Integer.parseInt(fields[0]);
                 int width = Integer.parseInt(fields[1]);
+
+                //Log.d(TAG, "Height: " + height + ", Width: " + width);
 
                 // Initialize letter and number arrays
 
@@ -161,25 +159,33 @@ public class CrosswordViewModel extends ViewModel {
 
                         // Clear grid squares
 
+                        String w = word.getWord();
 
-                                //INSERT YOUR CODE HERE
+                        int r = row;
+                        int c = column;
 
+                        for (int i = 0; i < w.length(); i++) {
 
+                            lArray[r][c] = BLANK_CHAR;
+
+                            if ( word.isAcross() )
+                                c++;
+                            else if ( word.isDown() )
+                                r++;
+
+                        }
 
                         // Append Clue to StringBuilder (either clueAcrossBuffer or clueDownBuffer)
-                                //INSERT YOUR CODE HERE
 
                         String clue = word.getClue();
                         WordDirection direction = word.getDirection();
 
-                        if (direction == WordDirection.ACROSS){
-                            clueAcrossBuffer.append(nArray[row][column] + ": " + clue + "\n");
+                        if (direction == WordDirection.ACROSS) {
+                            clueAcrossBuffer.append(nArray[row][column]).append(": ").append(clue).append("\n");
                         }
-                        else if  (direction == WordDirection.DOWN){
-                                clueDownBuffer.append(nArray[row][column] + ": " + clue + "\n");
+                        else if  (direction == WordDirection.DOWN) {
+                            clueDownBuffer.append(nArray[row][column]).append(": ").append(clue).append("\n");
                         }
-
-
 
                         // Create unique key; add word to collection
 
@@ -191,6 +197,8 @@ public class CrosswordViewModel extends ViewModel {
                 }
 
                 // Initialize MutableLiveData Members
+
+                Log.e(TAG, "Height: " + height + ", Width: " + width);
 
                 words.setValue(map);
 

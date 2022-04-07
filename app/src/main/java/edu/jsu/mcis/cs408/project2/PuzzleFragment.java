@@ -5,13 +5,17 @@ work here
  */
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +27,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 import edu.jsu.mcis.cs408.project2.databinding.FragmentPuzzleBinding;
@@ -40,6 +45,9 @@ public class PuzzleFragment extends Fragment implements TabFragment {
     private int puzzleHeight, puzzleWidth, numberSize;
 
     private ConstraintSet set;
+
+    private int guessBoxNumber;
+    private AlertDialog dialog;
 
     public PuzzleFragment() {
         // Required empty public constructor
@@ -76,6 +84,8 @@ public class PuzzleFragment extends Fragment implements TabFragment {
             gridNumberViews.add(row);
 
         }
+
+        this.dialog = createInputDialog();
 
     }
 
@@ -118,12 +128,19 @@ public class PuzzleFragment extends Fragment implements TabFragment {
 
         int box = model.getBoxNumber(row, column);
 
-        // If this square has a box number, show coordinates in a Toast
+        // If this square has a box number, show input dialog
 
         if (box != 0) {
-            String message = "R" + row + "C" + column + ": #" + box;
-            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+            guessBoxNumber = box;
+            //String message = "R" + row + "C" + column + ": #" + box;
+            dialog.show();
         }
+
+    }
+
+    private void processGuess(String userGuess) {
+
+        Toast.makeText(getActivity(), "Box: " + guessBoxNumber + ", Guess: " + userGuess, Toast.LENGTH_LONG).show();
 
     }
 
@@ -329,6 +346,30 @@ public class PuzzleFragment extends Fragment implements TabFragment {
 
         if (row >= 0 && row < puzzleHeight && column >= 0 && column < puzzleWidth)
             gridSquareViews.get(row).get(column).setBackground(AppCompatResources.getDrawable(binding.getRoot().getContext(), R.drawable.open_square));
+
+    }
+
+    private AlertDialog createInputDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.dialog_title);
+        builder.setMessage(R.string.dialog_message);
+        final EditText input = new EditText(getActivity());
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface d, int i) {
+                processGuess(input.getText().toString().toUpperCase());
+            }
+        });
+        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface d, int i) {
+                d.cancel();
+            }
+        });
+        return builder.create();
 
     }
 
