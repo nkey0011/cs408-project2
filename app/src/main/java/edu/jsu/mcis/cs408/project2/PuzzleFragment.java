@@ -128,6 +128,9 @@ public class PuzzleFragment extends Fragment implements TabFragment {
 
         int box = model.getBoxNumber(row, column);
 
+        String direction = fields[3];
+        String word = fields[4];
+
         // If this square has a box number, show input dialog
 
         if (box != 0) {
@@ -136,13 +139,46 @@ public class PuzzleFragment extends Fragment implements TabFragment {
             dialog.show();
         }
 
+        Word fileWord = model.getWord(box, word);
+        String key = guessBoxNumber + direction.toUpperCase();
+
+        /*
+        get guessBoxNumber
+        look in csv file for matching box number
+        get any words located at box number
+        if word direction is across, show as word across
+        if word direction is down, show as word down
+        compare across and down to input
+        if input equal to either, get word from csv and send to addWordToGrid
+
+        how to use key in all this?
+         */
+
+
+
+        // get horizontal and vertical words at box number (use model.getWord)
+
+        Word across = model.getWord(guessBoxNumber);
+        Word down = model.getWord(key);
+
+        // compare both words to input
+
+
+        // if correct word, put in puzzle (similar to getting word properties, but for 1)
+
+
+
+
+
     }
 
     private void processGuess(String userGuess) {
 
         Toast.makeText(getActivity(), "Box: " + guessBoxNumber + ", Guess: " + userGuess, Toast.LENGTH_LONG).show();
 
+
     }
+
 
     /* Methods for Creating Grid */
 
@@ -360,7 +396,12 @@ public class PuzzleFragment extends Fragment implements TabFragment {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface d, int i) {
+
+                // takes user input, converts to uppercase, and places in toast
                 processGuess(input.getText().toString().toUpperCase());
+
+
+
             }
         });
         builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {

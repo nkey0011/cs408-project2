@@ -180,6 +180,7 @@ CrosswordViewModel extends ViewModel {
                         String clue = word.getClue();
                         WordDirection direction = word.getDirection();
 
+
                         if (direction == WordDirection.ACROSS) {
                             clueAcrossBuffer.append(nArray[row][column]).append(": ").append(clue).append("\n");
                         }
@@ -189,8 +190,9 @@ CrosswordViewModel extends ViewModel {
 
                         // Create unique key; add word to collection
 
-                        String key = word.getBox() + word.getDirection().toString();
+                        String key = word.getBox() + word.getDirection().toString().toUpperCase();
                         map.put(key, word);
+
 
                     }
 
@@ -234,8 +236,29 @@ CrosswordViewModel extends ViewModel {
 
     public LiveData<Integer> getPuzzleHeight() { return puzzleHeight; }
 
+    // add getWord() and getNumber()
     public int getBoxNumber(int row, int column) {
         return Objects.requireNonNull(numbers.getValue())[row][column];
     }
 
+    public int getNumber(int row, int column){
+        return Objects.requireNonNull(numbers.getValue())[row][column];
+    }
+
+
+    public Word getWord(int box, String word) {
+        // get word from collection at the key (should be uppercased)
+
+
+        return Objects.requireNonNull(words.getValue())[box][word];
+
+
+    }
+
+
+
+
+
+
+    // add booleon method to count # of blank squares left
 }
