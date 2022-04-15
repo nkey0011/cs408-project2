@@ -16,8 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class
-CrosswordViewModel extends ViewModel {
+public class CrosswordViewModel extends ViewModel {
 
     private static final int WORD_DATA_FIELDS = 6;
     private static final int WORD_HEADER_FIELDS = 2;
@@ -228,20 +227,35 @@ CrosswordViewModel extends ViewModel {
     }
 
     // method to see if user has won
-    private boolean winningCondition(){
+    public boolean winningCondition() {
+
+        boolean result = false;
+
         int blankSquares = 0;
 
+        char[][] cells = letters.getValue();
+
         // go through puzzle and count blank squares
-        for (BLANK_CHAR){
-            blankSquares--;
+        for (int row = 0; row < cells.length; ++row) {
+
+            for (int col = 0; col < cells[row].length; ++col) {
+
+                char c = cells[row][col];
+                if (c == BLANK_CHAR) {
+                    ++blankSquares;
+                }
+
+            }
+
         }
 
         // when blank spaces equals 0, true
         if (blankSquares == 0) {
-            //true;
+            result = true;
         }
 
         // dialog message that user has won
+        return result;
 
     }
 
@@ -264,18 +278,40 @@ CrosswordViewModel extends ViewModel {
         return Objects.requireNonNull(numbers.getValue())[row][column];
     }
 
-    public Word getWord(int box, String word) {
+    public Word getWord(String key) {
 
         // go through and get
-        for(Map.Entry<String, Word> e : Objects.requireNonNull(words.getValue()).entrySet()){
+        /*for(Map.Entry<String, Word> e : Objects.requireNonNull(words.getValue()).entrySet()){
 
-        }
-        return Objects.requireNonNull(words.getValue())[box][word];
+        }*/
+        return Objects.requireNonNull(words.getValue()).get(key);
 
         // send user guess to addWordToGrid()
     }
 
+    public boolean compareWord(String guess, int box) {
 
+        boolean result = false;
+
+        String acrossKey = box + "A";
+        String downKey = box + "D";
+
+        Word across = getWord(acrossKey);
+        Word down = getWord(downKey);
+
+        if ((across != null) && (guess.equals(across.getWord()))) {
+            result = true;
+            addWordToGrid(acrossKey);
+        }
+
+        else if ((down != null) && (guess.equals(down.getWord()))) {
+            result = true;
+            addWordToGrid(downKey);
+        }
+
+        return result;
+
+    }
 
 
 }

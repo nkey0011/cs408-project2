@@ -118,7 +118,7 @@ public class PuzzleFragment extends Fragment implements TabFragment {
 
     /* Shared Event Handler for Grid Squares */
 
-    public void onClick(View v, String userGuess) {
+    public void onClick(@NonNull View v) {
 
         // Get Row/Column of Tapped Square
 
@@ -129,8 +129,8 @@ public class PuzzleFragment extends Fragment implements TabFragment {
         int box = model.getBoxNumber(row, column);
 
 
-        String direction = fields[3];
-        String word = fields[4];
+        //String direction = fields[3];
+        //String word = fields[4];
 
         // If this square has a box number, show input dialog
 
@@ -141,7 +141,7 @@ public class PuzzleFragment extends Fragment implements TabFragment {
         }
 
         //Word fileWord = model.getWord(box, word);
-        String key = guessBoxNumber + direction.toUpperCase();
+        //String key = guessBoxNumber + direction.toUpperCase();
 
         /*
         get guessBoxNumber
@@ -161,7 +161,7 @@ public class PuzzleFragment extends Fragment implements TabFragment {
 
 
 
-        String across = String.valueOf(model.getWord(box, word));
+        /*String across = String.valueOf(model.getWord(box, word));
         String down = String.valueOf(model.getWord(box, word));
 
         /*
@@ -170,12 +170,12 @@ public class PuzzleFragment extends Fragment implements TabFragment {
 
          */
 
-        if (userGuess == across){
+        /*if (userGuess == across){
             model.addWordToGrid(); //private method, use other one
         }
         else if (userGuess == down){
             model.addWordToGrid(); //private method, use other one
-        }
+        }*/
         // compare both words to input
 
 
@@ -189,8 +189,25 @@ public class PuzzleFragment extends Fragment implements TabFragment {
 
     private void processGuess(String userGuess) {
 
-        Toast.makeText(getActivity(), "Box: " + guessBoxNumber + ", Guess: " + userGuess, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getActivity(), "Box: " + guessBoxNumber + ", Guess: " + userGuess, Toast.LENGTH_LONG).show();
 
+        boolean correct = model.compareWord(userGuess, guessBoxNumber);
+
+        if (correct) {
+
+            if (model.winningCondition()) {
+                Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.message_gameover), Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.message_correctguess), Toast.LENGTH_LONG).show();
+            }
+
+            updateGrid();
+
+        }
+        else {
+            Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.message_incorrectguess), Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -414,9 +431,7 @@ public class PuzzleFragment extends Fragment implements TabFragment {
 
                 // takes user input, converts to uppercase, and places in toast
                 processGuess(input.getText().toString().toUpperCase().trim());
-
-
-
+                input.setText("");
 
             }
         });

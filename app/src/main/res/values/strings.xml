@@ -4,4 +4,7 @@
     <string name="down_clue_header">Down</string>
     <string name="dialog_title">Enter Your Guess</string>
     <string name="dialog_message">Enter your guess and tap OK or CANCEL:</string>
+    <string name="message_correctguess">Congratulations, your guess was correct!</string>
+    <string name="message_incorrectguess">Sorry, your guess was incorrect.</string>
+    <string name="message_gameover">Congratulations, you won the game!  Thank you for playing!</string>
 </resources>
