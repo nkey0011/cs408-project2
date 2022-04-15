@@ -52,6 +52,8 @@ CrosswordViewModel extends ViewModel {
 
     private void addWordToGrid(String key) {
 
+
+
         // Get word from collection (look up using the given key)
 
         Word word = Objects.requireNonNull(words.getValue()).get(key);
@@ -78,6 +80,9 @@ CrosswordViewModel extends ViewModel {
                     row++;
 
             }
+
+
+            winningCondition();
 
         }
 
@@ -222,6 +227,24 @@ CrosswordViewModel extends ViewModel {
 
     }
 
+    // method to see if user has won
+    private boolean winningCondition(){
+        int blankSquares = 0;
+
+        // go through puzzle and count blank squares
+        for (BLANK_CHAR){
+            blankSquares--;
+        }
+
+        // when blank spaces equals 0, true
+        if (blankSquares == 0) {
+            //true;
+        }
+
+        // dialog message that user has won
+
+    }
+
     // Getter Methods
 
     public LiveData<char[][]> getLetters() { return letters; }
@@ -241,24 +264,18 @@ CrosswordViewModel extends ViewModel {
         return Objects.requireNonNull(numbers.getValue())[row][column];
     }
 
-    public int getNumber(int row, int column){
-        return Objects.requireNonNull(numbers.getValue())[row][column];
-    }
-
-
     public Word getWord(int box, String word) {
-        // get word from collection at the key (should be uppercased)
 
+        // go through and get
+        for(Map.Entry<String, Word> e : Objects.requireNonNull(words.getValue()).entrySet()){
 
+        }
         return Objects.requireNonNull(words.getValue())[box][word];
 
-
+        // send user guess to addWordToGrid()
     }
 
 
 
 
-
-
-    // add booleon method to count # of blank squares left
 }

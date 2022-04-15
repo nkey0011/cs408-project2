@@ -118,7 +118,7 @@ public class PuzzleFragment extends Fragment implements TabFragment {
 
     /* Shared Event Handler for Grid Squares */
 
-    public void onClick(View v) {
+    public void onClick(View v, String userGuess) {
 
         // Get Row/Column of Tapped Square
 
@@ -127,6 +127,7 @@ public class PuzzleFragment extends Fragment implements TabFragment {
         int column = Integer.parseInt(fields[1]);
 
         int box = model.getBoxNumber(row, column);
+
 
         String direction = fields[3];
         String word = fields[4];
@@ -139,7 +140,7 @@ public class PuzzleFragment extends Fragment implements TabFragment {
             dialog.show();
         }
 
-        Word fileWord = model.getWord(box, word);
+        //Word fileWord = model.getWord(box, word);
         String key = guessBoxNumber + direction.toUpperCase();
 
         /*
@@ -158,9 +159,23 @@ public class PuzzleFragment extends Fragment implements TabFragment {
 
         // get horizontal and vertical words at box number (use model.getWord)
 
-        Word across = model.getWord(guessBoxNumber);
-        Word down = model.getWord(key);
 
+
+        String across = String.valueOf(model.getWord(box, word));
+        String down = String.valueOf(model.getWord(box, word));
+
+        /*
+        across.getDirection();
+        down.getDirection();
+
+         */
+
+        if (userGuess == across){
+            model.addWordToGrid(); //private method, use other one
+        }
+        else if (userGuess == down){
+            model.addWordToGrid(); //private method, use other one
+        }
         // compare both words to input
 
 
@@ -398,7 +413,8 @@ public class PuzzleFragment extends Fragment implements TabFragment {
             public void onClick(DialogInterface d, int i) {
 
                 // takes user input, converts to uppercase, and places in toast
-                processGuess(input.getText().toString().toUpperCase());
+                processGuess(input.getText().toString().toUpperCase().trim());
+
 
 
 
