@@ -280,15 +280,13 @@ public class CrosswordViewModel extends ViewModel {
 
     public Word getWord(String key) {
 
-        // go through and get
-        /*for(Map.Entry<String, Word> e : Objects.requireNonNull(words.getValue()).entrySet()){
+        // go through file and get word from key
 
-        }*/
         return Objects.requireNonNull(words.getValue()).get(key);
 
-        // send user guess to addWordToGrid()
     }
 
+    // compares user guess to word from file
     public boolean compareWord(String guess, int box) {
 
         boolean result = false;
